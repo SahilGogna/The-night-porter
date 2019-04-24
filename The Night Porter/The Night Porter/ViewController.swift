@@ -22,6 +22,8 @@ class ViewController: UIViewController , UITableViewDataSource , UITableViewDele
     
     //returns number of sections in the table
     func numberOfSections(in tableView: UITableView) -> Int {
+        // when we set color to dark in the table view it was overlapping due to the white color of the sections
+        tableView.backgroundColor = UIColor.clear // clear so that they become transparent
         return 3
     }
     
@@ -54,6 +56,7 @@ class ViewController: UIViewController , UITableViewDataSource , UITableViewDele
             cell.textLabel?.text = "This is not good!"
         }
         
+        cell.backgroundColor = UIColor.clear
         return cell
     }
     
@@ -110,4 +113,13 @@ class ViewController: UIViewController , UITableViewDataSource , UITableViewDele
         // Do any additional setup after loading the view, typically from a nib.
     }
 
+    @IBAction func toggleDarkMode(_ sender: Any) {
+        let mySwitch = sender as! UISwitch
+        
+        if mySwitch.isOn{
+            view.backgroundColor = UIColor.darkGray
+        } else{
+            view.backgroundColor = UIColor.white
+        }
+    }
 }
