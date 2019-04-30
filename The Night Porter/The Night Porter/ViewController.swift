@@ -10,6 +10,9 @@ import UIKit
 
 class ViewController: UIViewController , UITableViewDataSource , UITableViewDelegate{
     
+    
+    @IBOutlet weak var taskTable: UITableView!
+    
     //UITableViewDataSource is a protocol and first 2 methods are compulsory methods and these methods are called by default
     
     // donot forget to set a data source to the table, we don't populate the data from controller to the table, rather we just tell the table where to find the data source for the data
@@ -30,7 +33,7 @@ class ViewController: UIViewController , UITableViewDataSource , UITableViewDele
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return dailyTaks.count
+            return dailyTasks.count
         case 1:
             return weeklyTasks.count
         case 2:
@@ -44,19 +47,35 @@ class ViewController: UIViewController , UITableViewDataSource , UITableViewDele
         
         let cell = UITableViewCell()
         
+        //the current task type instance
+        var currentTask : Task!
+        
         // data will be decided according to the section of the table
         switch indexPath.section {
         case 0:
-            cell.textLabel?.text = dailyTaks[indexPath.row]
+            currentTask = dailyTasks[indexPath.row]
         case 1:
-            cell.textLabel?.text = weeklyTasks[indexPath.row]
+            currentTask = weeklyTasks[indexPath.row]
         case 2:
-            cell.textLabel?.text = monthlyTasks[indexPath.row]
+            currentTask = monthlyTasks[indexPath.row]
         default:
-            cell.textLabel?.text = "This is not good!"
+            break
         }
         
+        //use the name property to set the value of the cell
+        cell.textLabel?.text = currentTask?.name
+        
+        if currentTask!.completed{
+            cell.accessoryType = .checkmark
+            cell.textLabel?.textColor = UIColor.lightGray
+        }else{
+            cell.accessoryType = .none
+            cell.textLabel?.textColor = UIColor.black
+        }
+        
+        //set the cell background
         cell.backgroundColor = UIColor.clear
+        
         return cell
     }
     
@@ -73,12 +92,36 @@ class ViewController: UIViewController , UITableViewDataSource , UITableViewDele
         }
     }
     
-    let dailyTaks = ["Check all windows", "Check all doors","Is boiler fueled?",
-        "Check the mailbox","Empty trash container", "If freezing, check water pipes", "Document Strange and unusual occurances"]
+    var dailyTasks = [
+        Task(name: "Check all windows", type: .daily, completed: false, lastCompleted: nil),
+        Task(name: "Check all doors", type: .daily, completed: false, lastCompleted: nil),
+        Task(name: "Is boiler fueled?", type: .daily, completed: false, lastCompleted: nil),
+        Task(name: "Check the mailbox", type: .daily, completed: false, lastCompleted: nil),
+        Task(name: "Empty trash container", type: .daily, completed: false, lastCompleted: nil),
+        Task(name: "If freezing, check water pipes", type: .daily, completed: false, lastCompleted: nil),
+        Task(name: "Document Strange and unusual occurances", type: .daily, completed: false, lastCompleted: nil)
+    ]
     
-    let weeklyTasks = ["Check inside all cabins", "Flush all lavotaries in cabin ", "Walk parameters of property"]
+    var weeklyTasks = [
+        Task(name: "Check inside all cabins", type: .weekly, completed: false, lastCompleted: nil),
+        Task(name: "Flush all lavotaries in cabin ", type: .weekly, completed: false, lastCompleted: nil),
+        Task(name: "Walk parameters of property", type: .weekly, completed: false, lastCompleted: nil)
+    ]
     
-    let monthlyTasks = ["Test security alarm", "Test motion detectors", "Test smoke alarms"]
+    var monthlyTasks = [
+        Task(name: "Test security alarm", type: .monthly, completed: false, lastCompleted: nil),
+        Task(name: "Test motion detectors", type: .monthly, completed: false, lastCompleted: nil),
+        Task(name: "Test smoke alarms", type: .monthly, completed: false, lastCompleted: nil)
+    ]
+    
+    // earlier I was using string array, but now this string array has been replaced by Task array
+    
+//    let dailyTaks = ["Check all windows", "Check all doors","Is boiler fueled?",
+//        "Check the mailbox","Empty trash container", "If freezing, check water pipes", "Document Strange and unusual occurances"]
+//
+//    let weeklyTasks = ["Check inside all cabins", "Flush all lavotaries in cabin ", "Walk parameters of property"]
+//
+//    let monthlyTasks = ["Test security alarm", "Test motion detectors", "Test smoke alarms"]
     
     
     // these are the table view delegate method
@@ -121,5 +164,58 @@ class ViewController: UIViewController , UITableViewDataSource , UITableViewDele
         } else{
             view.backgroundColor = UIColor.white
         }
+    }
+    
+    
+    @IBAction func resetList(_ sender: UIBarButtonItem) {
+        
+        let confirm = UIAlertController(title: "Reset List", message: "Are you sure? ", preferredStyle: .alert)
+        
+        let actionYes = UIAlertAction(title: "Yes", style: .destructive) { (action) in
+            for task in 0...self.dailyTasks.count-1{
+                self.dailyTasks[task].completed = false
+            }
+            
+            for task in 0...self.weeklyTasks.count-1{
+                self.weeklyTasks[task].completed = false
+            }
+            
+            for task in 0...self.monthlyTasks.count-1{
+                self.monthlyTasks[task].completed = false
+            }
+            self.taskTable.reloadData()
+        }
+        
+        let actionNo = UIAlertAction(title: "No", style: .cancel) { (action) in
+            print("Cancelled!")
+        }
+        
+        //add actions to the alertcontroller
+        confirm.addAction(actionYes)
+        confirm.addAction(actionNo)
+        
+        //show the dialoge box
+        present(confirm, animated: true, completion: nil)
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let completeAction = UIContextualAction(style: .normal, title: "Complete") { (action: UIContextualAction, sourceView:UIView, actionPerformed:(Bool) -> Void) in
+            // find the right object and set it to completed
+            
+            switch indexPath.section{
+            case 0:
+                self.dailyTasks[indexPath.row].completed = true
+            case 1:
+                self.weeklyTasks[indexPath.row].completed = true
+            case 2:
+                self.monthlyTasks[indexPath.row].completed = true
+            default:
+                break
+            }
+            tableView.reloadData()
+            actionPerformed(true)
+        }
+        
+        return UISwipeActionsConfiguration(actions: [completeAction])
     }
 }

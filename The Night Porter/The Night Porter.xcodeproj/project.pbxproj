@@ -12,6 +12,7 @@
 		085234C62211188600E447B4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 085234C42211188600E447B4 /* Main.storyboard */; };
 		085234C82211188800E447B4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 085234C72211188800E447B4 /* Assets.xcassets */; };
 		085234CB2211188800E447B4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 085234C92211188800E447B4 /* LaunchScreen.storyboard */; };
+		08C49AB32278B1FC007C7384 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C49AB22278B1FC007C7384 /* Task.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		085234C72211188800E447B4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		085234CA2211188800E447B4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		085234CC2211188800E447B4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		08C49AB22278B1FC007C7384 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 				085234C72211188800E447B4 /* Assets.xcassets */,
 				085234C92211188800E447B4 /* LaunchScreen.storyboard */,
 				085234CC2211188800E447B4 /* Info.plist */,
+				08C49AB22278B1FC007C7384 /* Task.swift */,
 			);
 			path = "The Night Porter";
 			sourceTree = "<group>";
@@ -136,6 +139,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				085234C32211188600E447B4 /* ViewController.swift in Sources */,
+				08C49AB32278B1FC007C7384 /* Task.swift in Sources */,
 				085234C12211188600E447B4 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
